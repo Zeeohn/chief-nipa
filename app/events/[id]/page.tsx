@@ -66,8 +66,8 @@ export default function EventPage({ params }: { params: { id: string } }) {
   }>(null);
 
   useEffect(() => {
-    const fetchEvent = async () => {
-      const event = events.find(async (e) => e.id === (await params.id));
+    const fetchEvent = () => {
+      const event = events.find((e) => e.id === params.id);
       setEvent(event || null);
     };
 
