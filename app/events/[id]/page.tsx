@@ -51,32 +51,35 @@ const events = [
 // }
 
 export default function EventPage({ params }: { params: { id: string } }) {
-  const [event, setEvent] = useState<null | {
-    id: string;
-    title: string;
-    date: string;
-    time: string;
-    location: string;
-    image: string;
-    description: string;
-    attendees: number;
-    type: string;
-    agenda: string[];
-    speakers: { name: string; title: string; topic: string }[];
-  }>(null);
+  const eventId = params.id as unknown as string; // Temporary type assertion
 
-  useEffect(() => {
-    const fetchEvent = () => {
-      const event = events.find((e) => e.id === params.id);
-      setEvent(event || null);
-    };
+  const event = events.find((e) => e.id === eventId) || null;
+  // const [event, setEvent] = useState<null | {
+  //   id: string;
+  //   title: string;
+  //   date: string;
+  //   time: string;
+  //   location: string;
+  //   image: string;
+  //   description: string;
+  //   attendees: number;
+  //   type: string;
+  //   agenda: string[];
+  //   speakers: { name: string; title: string; topic: string }[];
+  // }>(null);
 
-    fetchEvent();
-  }, [params.id]);
+  // useEffect(() => {
+  //   const fetchEvent = () => {
+  //     const event = events.find((e) => e.id === params.id);
+  //     setEvent(event || null);
+  //   };
 
-  if (!event) {
-    return null;
-  }
+  //   fetchEvent();
+  // }, [params.id]);
+
+  // if (!event) {
+  //   return null;
+  // }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -84,8 +87,8 @@ export default function EventPage({ params }: { params: { id: string } }) {
       <section className="relative h-[50vh] md:h-[80vh] flex items-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src={event.image}
-            alt={event.title}
+            src={event?.image || ""}
+            alt={event?.title || ""}
             fill
             priority
             className="object-cover brightness-[0.6]"
@@ -98,23 +101,25 @@ export default function EventPage({ params }: { params: { id: string } }) {
               Back to Events
             </Link>
           </Button>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{event.title}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            {event?.title}
+          </h1>
           <div className="flex flex-wrap gap-4">
             <div className="flex items-center">
               <CalendarDays className="h-5 w-5 mr-2" />
-              {event.date}
+              {event?.date}
             </div>
             <div className="flex items-center">
               <Clock className="h-5 w-5 mr-2" />
-              {event.time}
+              {event?.time}
             </div>
             <div className="flex items-center">
               <MapPin className="h-5 w-5 mr-2" />
-              {event.location}
+              {event?.location}
             </div>
             <div className="flex items-center">
               <Users className="h-5 w-5 mr-2" />
-              {event.attendees} Expected Attendees
+              {event?.attendees} Expected Attendees
             </div>
           </div>
         </div>
@@ -131,12 +136,12 @@ export default function EventPage({ params }: { params: { id: string } }) {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground mb-8">
-                    {event.description}
+                    {event?.description}
                   </p>
 
                   <h3 className="text-xl font-semibold mb-4">Event Agenda</h3>
                   <ul className="space-y-2 mb-8">
-                    {event.agenda.map((item, index) => (
+                    {event?.agenda?.map((item, index) => (
                       <li key={index} className="flex items-start">
                         <div className="mr-2 mt-1 bg-primary rounded-full p-1">
                           <svg
@@ -162,7 +167,7 @@ export default function EventPage({ params }: { params: { id: string } }) {
                     Featured Speakers
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {event.speakers.map((speaker, index) => (
+                    {event?.speakers?.map((speaker, index) => (
                       <Card key={index}>
                         <CardContent className="pt-6">
                           <h4 className="font-semibold">{speaker.name}</h4>
@@ -197,15 +202,15 @@ export default function EventPage({ params }: { params: { id: string } }) {
                   <div className="space-y-2">
                     <div className="flex items-center text-sm">
                       <CalendarDays className="h-4 w-4 mr-2 text-primary" />
-                      <span>{event.date}</span>
+                      <span>{event?.date}</span>
                     </div>
                     <div className="flex items-center text-sm">
                       <Clock className="h-4 w-4 mr-2 text-primary" />
-                      <span>{event.time}</span>
+                      <span>{event?.time}</span>
                     </div>
                     <div className="flex items-start text-sm">
                       <MapPin className="h-4 w-4 mr-2 mt-1 flex-shrink-0 text-primary" />
-                      <span>{event.location}</span>
+                      <span>{event?.location}</span>
                     </div>
                   </div>
 
