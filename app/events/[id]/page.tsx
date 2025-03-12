@@ -50,7 +50,7 @@ const events = [
 //   return events.map((event) => ({ id: event.id }));
 // }
 
-export default function EventPage({ params }: { params: { id: string } }) {
+export default function EventPage(params: { id: string }) {
   const eventId = params.id as unknown as string; // Temporary type assertion
 
   const event = events.find((e) => e.id === eventId) || null;
